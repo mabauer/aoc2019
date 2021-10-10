@@ -19,11 +19,12 @@ function part1(lines : string[]) {
     return result;
 }
 
-read_inputfile("input01.txt").then (lines => {
+async function main() {
+    const lines = await read_inputfile("input01.txt")
     const result = part1(lines);
     console.log(`The answer for part one is: ${result}`)    
-}).catch(error => {
-    console.log(`${error}!`)
-});
+}
+
+main();
 
 export {compute_fuel };
