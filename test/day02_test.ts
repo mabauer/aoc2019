@@ -22,7 +22,7 @@ suite("Day02", () => {
     test("run self modifying program", () => {
         const computer = new Computer([1,1,1,4,99,5,6,0,99]);
         computer.run();
-        assert.equal(computer.peek(0), 30);
+        assert.equal(computer.peek(), 30);
         assert.equal(computer.peek(4), 2); // 30,1,1,4,2,5,6,0,99
     });
 

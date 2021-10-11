@@ -2,44 +2,60 @@
 
 import { read_inputfile } from './utils'
 
+enum OPCODE {
+    ADD = 1,
+    MULT = 2,
+    STOP = 99,
+}
+
 class Computer {
 
-    memory: number[];
-    ip: number = 0;
+    private memory: number[];
+    private ip: number = 0;
 
     constructor(code: number[]) {
         this.memory = code.slice();
     } 
 
-    execute_stmt(): any  {
-        const opcode = this.memory[this.ip];
-        const operand1 = this.memory[this.memory[this.ip+1]];
-        const operand2 = this.memory[this.memory[this.ip+2]];
+    execute_stmt(): void  {
+        const opcode = this.peek(this.ip);
+        const operand1 = this.peek(this.peek(this.ip+1));
+        const operand2 = this.peek(this.peek(this.ip+2));
         let result = 0;
-        if (opcode == 1) {
+        if (opcode == OPCODE.ADD) {
             result = operand1 + operand2;
-        } else if (opcode == 2) {
+        } else if (opcode == OPCODE.MULT) {
             result = operand1 * operand2;
         } else {
             return;
         }
-        this.memory[this.memory[this.ip+3]] = result;
+        this.poke(this.peek(this.ip+3), result);
         this.ip += 4;
     }
+
     run(input1?:number, input2?: number): number {
         if (input2)
-            this.memory[2] = input2;
+            this.poke(2, input2);
         if (input1)
-            this.memory[1] = input1;
-        while (this.memory[this.ip] != 99) {
+            this.poke(1, input1);
+        while (this.peek(this.ip) != OPCODE.STOP) {
             this.execute_stmt();
+            if (this.ip > this.memory.length)
+                break;
+                // throw new Error("Unexpected end of program -- STOP opcode missing!")
             // this.dump();
         }
         return this.memory[0];
     }
 
-    peek(addr: number): number {
+    peek(addr?: number): number {
+        if (!addr)
+            addr = 0;
         return this.memory[addr];
+    }
+
+    poke(addr: number, value: number) {
+        this.memory[addr] = value;
     }
 
     dump() {
