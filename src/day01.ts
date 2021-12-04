@@ -1,6 +1,3 @@
-#!/usr/bin/env ts-node
-
-import { read_inputfile } from './utils'
 
 function compute_fuel(m: number) {
     return Math.floor(m/3) - 2;
@@ -44,14 +41,4 @@ function part2(lines : string[]) {
     return result;
 }
 
-async function main() {
-    const lines = await read_inputfile("input01.txt")
-    const result1 = part1(lines);
-    console.log(`The answer for part one is: ${result1}`)  
-    const result2 = part2(lines);
-    console.log(`The answer for part one is: ${result2}`)  
-}
-
-main();
-
-export {compute_fuel, compute_fuel_including_fuel };
+export {part1, part2, compute_fuel, compute_fuel_including_fuel };

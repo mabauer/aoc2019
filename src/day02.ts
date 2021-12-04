@@ -1,6 +1,3 @@
-#!/usr/bin/env ts-node
-
-import { read_inputfile } from './utils'
 
 enum OPCODE {
     ADD = 1,
@@ -83,16 +80,5 @@ function part2(lines : string[]) {
     }
     throw new Error('Could compute result from inputs!');
 }
- 
 
-async function main() {
-    const lines = await read_inputfile("input02.txt")
-    const result1 = part1(lines);
-    console.log(`The answer for part one is: ${result1}`)  
-    const result2 = part2(lines);
-    console.log(`The answer for part one is: ${result2}`)  
-}
-
-main();
-
-export { Computer };
+export { part1, part2, Computer };
